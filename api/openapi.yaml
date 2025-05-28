@@ -1,0 +1,916 @@
+openapi: 3.0.0
+info:
+  description: "Combined API for Zibal Gateway and Facilities (Verification, Wallet,\
+    \ etc.)"
+  title: Zibal API
+  version: 1.0.0
+servers:
+- url: /
+tags:
+- description: Zibal IPG (gateway.zibal.ir)
+  name: Gateway
+- description: Zibal Facilities (api.zibal.ir/v1)
+  name: Facilities
+paths:
+  /request:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentInitRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentInitResponse'
+          description: Payment initiation response
+      servers:
+      - url: https://gateway.zibal.ir/
+      summary: Initiate Payment
+      tags:
+      - Gateway
+  /verify:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentVerifyRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentVerifyResponse'
+          description: Payment verification response
+      servers:
+      - url: https://gateway.zibal.ir/
+      summary: Verify Payment
+      tags:
+      - Gateway
+  /start/{trackId}:
+    get:
+      description: Get payment page
+      parameters:
+      - explode: false
+        in: path
+        name: trackId
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      responses:
+        "200":
+          description: Redirect to Zibal payment page
+      servers:
+      - url: https://gateway.zibal.ir/
+      summary: Get payment page
+      tags:
+      - Gateway
+  /facility/nationalIdentityInquiry:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NationalIdentityInquiryRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NationalIdentityInquiryResponse'
+          description: National Identity Inquiry Response
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad Request (Invalid input or parameters)
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden (Authentication or authorization error)
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+      security:
+      - bearerAuth: []
+      servers:
+      - url: https://api.zibal.ir/v1
+      summary: National Identity Inquiry
+      tags:
+      - Facilities
+  /facility/shahkarInquiry:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ShahkarInquiryRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShahkarInquiryResponse'
+          description: Shahkar Inquiry Response
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad Request (Invalid input or parameters)
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden (Authentication or authorization error)
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+      security:
+      - bearerAuth: []
+      servers:
+      - url: https://api.zibal.ir/v1
+      summary: Shahkar Inquiry
+      tags:
+      - Facilities
+  /facility/checkCardWithNationalCode:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckCardWithNationalCodeRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckCardWithNationalCodeResponse'
+          description: Check Card With National Code Response
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad Request (Invalid input or parameters)
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden (Authentication or authorization error)
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+      security:
+      - bearerAuth: []
+      servers:
+      - url: https://api.zibal.ir/v1
+      summary: Check Card With National Code
+      tags:
+      - Facilities
+  /facility/cardToAccount:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CardToAccountRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CardToAccountResponse'
+          description: Card To Bank Account Response
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad Request (Invalid input or parameters)
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden (Authentication or authorization error)
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+      security:
+      - bearerAuth: []
+      servers:
+      - url: https://api.zibal.ir/v1
+      summary: Card To Bank Account
+      tags:
+      - Facilities
+  /facility/accountToIban:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BankAccountToIbanRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankAccountToIbanResponse'
+          description: Bank Account To IBAN Response
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad Request (Invalid input or parameters)
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden (Authentication or authorization error)
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+      security:
+      - bearerAuth: []
+      servers:
+      - url: https://api.zibal.ir/v1
+      summary: Bank Account To IBAN
+      tags:
+      - Facilities
+  /facility/cardToIban:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CardToIbanRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CardToIbanResponse'
+          description: Card To IBAN Response
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad Request (Invalid input or parameters)
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden (Authentication or authorization error)
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+      security:
+      - bearerAuth: []
+      servers:
+      - url: https://api.zibal.ir/v1
+      summary: Card To IBAN
+      tags:
+      - Facilities
+  /wallet/checkout/plus:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WalletCheckoutPlusRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WalletCheckoutPlusResponse'
+          description: Wallet Checkout Plus Response
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad Request (Invalid input or parameters)
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden (Authentication or authorization error)
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal Server Error
+      security:
+      - bearerAuth: []
+      servers:
+      - url: https://api.zibal.ir/v1
+      summary: Wallet Checkout Plus
+      tags:
+      - Facilities
+components:
+  schemas:
+    PaymentInitRequest:
+      example:
+        ledgerId: ledgerId
+        amount: 0
+        nationalCode: nationalCode
+        orderId: orderId
+        mobile: mobile
+        merchant: merchant
+        description: description
+        callbackUrl: https://openapi-generator.tech
+        checkMobileWithCard: true
+        allowedCards:
+        - allowedCards
+        - allowedCards
+      properties:
+        merchant:
+          type: string
+        amount:
+          format: int64
+          type: integer
+        callbackUrl:
+          format: uri
+          type: string
+        description:
+          type: string
+        orderId:
+          type: string
+        mobile:
+          type: string
+        allowedCards:
+          items:
+            type: string
+          type: array
+        ledgerId:
+          type: string
+        nationalCode:
+          type: string
+        checkMobileWithCard:
+          type: boolean
+      required:
+      - amount
+      - callbackUrl
+      - merchant
+      type: object
+    PaymentInitResponse:
+      example:
+        result: 6
+        trackId: 0
+        message: message
+      properties:
+        trackId:
+          format: int64
+          type: integer
+        result:
+          description: result
+          enum:
+          - 100
+          - 102
+          - 103
+          - 104
+          - 105
+          - 106
+          - 113
+          - 114
+          type: integer
+          x-enum-varnames:
+          - Success
+          - MerchantNotFound
+          - MerchantDisallowed
+          - MerchantInvalid
+          - AmountInvalid
+          - CallbackInvalid
+          - NationalIDInvalid
+        message:
+          type: string
+      required:
+      - message
+      - result
+      - trackId
+      type: object
+    PaymentVerifyRequest:
+      example:
+        trackId: 0
+        merchant: merchant
+      properties:
+        merchant:
+          type: string
+        trackId:
+          format: int64
+          type: integer
+      required:
+      - merchant
+      - trackId
+      type: object
+    PaymentVerifyResponse:
+      example:
+        result: 6
+        amount: 0
+        refNumber: refNumber
+        orderId: orderId
+        paidAt: 2000-01-23 04:56:07+00:00
+        description: description
+        message: message
+        cardNumber: cardNumber
+        status: 1
+      properties:
+        paidAt:
+          description: ISODate
+          format: date-time
+          type: string
+        amount:
+          description: مبلغ سفارش (به ریال)
+          type: integer
+        result:
+          description: result
+          enum:
+          - 100
+          - 102
+          - 103
+          - 104
+          - 201
+          - 202
+          - 203
+          type: integer
+          x-enum-varnames:
+          - Success
+          - MerchantNotFound
+          - MerchantDisallowed
+          - MerchantInvalid
+          - AgainVerify
+          - InvalidTransaction
+          - TrackIdInvalid
+        status:
+          description: verify status
+          enum:
+          - -1
+          - -2
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+          - 7
+          - 8
+          - 9
+          - 10
+          - 11
+          - 12
+          - 13
+          - 14
+          - 15
+          - 16
+          - 17
+          - 18
+          type: integer
+          x-enum-varnames:
+          - pendingPayment
+          - internalError
+          - paidConfirmed
+          - paidUnconfirmed
+          - cancelledByUser
+          - invalidCardNumber
+          - insufficientBalance
+          - incorrectPin
+          - requestLimitExceeded
+          - dailyPaymentCountExceeded
+          - dailyPaymentAmountExceeded
+          - invalidCardIssuer
+          - switchError
+          - cardInaccessible
+          - notRecognize1
+          - notRecognize2
+          - refunded
+          - refundInProgress
+          - reversed
+        refNumber:
+          description: refrence number
+          type: string
+        description:
+          description: transaction description
+          type: string
+        cardNumber:
+          description: Masked bank card
+          type: string
+        orderId:
+          description: order id
+          type: string
+        message:
+          description: message
+          type: string
+      required:
+      - amount
+      - cardNumber
+      - message
+      - result
+      - status
+      type: object
+    NationalIdentityInquiryRequest:
+      example:
+        nationalCode: nationalCode
+        birthDate: birthDate
+      properties:
+        nationalCode:
+          type: string
+        birthDate:
+          type: string
+      required:
+      - birthDate
+      - nationalCode
+      type: object
+    NationalIdentityInquiryResponse:
+      example:
+        result: 0
+        data:
+          firstName: firstName
+          lastName: lastName
+          alive: true
+          matched: true
+        message: message
+      properties:
+        result:
+          type: integer
+        message:
+          type: string
+        data:
+          $ref: '#/components/schemas/NationalIdentityInquiryResponse_data'
+      type: object
+    ShahkarInquiryRequest:
+      example:
+        nationalCode: nationalCode
+        mobile: mobile
+      properties:
+        nationalCode:
+          type: string
+        mobile:
+          type: string
+      required:
+      - mobile
+      - nationalCode
+      type: object
+    ShahkarInquiryResponse:
+      example:
+        result: 0
+        data:
+          matched: true
+        message: message
+      properties:
+        result:
+          type: integer
+        message:
+          type: string
+        data:
+          $ref: '#/components/schemas/ShahkarInquiryResponse_data'
+      type: object
+    CheckCardWithNationalCodeRequest:
+      example:
+        nationalCode: nationalCode
+        birthDate: birthDate
+        cardNumber: cardNumber
+      properties:
+        nationalCode:
+          type: string
+        birthDate:
+          type: string
+        cardNumber:
+          type: string
+      required:
+      - birthDate
+      - cardNumber
+      - nationalCode
+      type: object
+    CheckCardWithNationalCodeResponse:
+      example:
+        result: 0
+        data:
+          matched: true
+        message: message
+      properties:
+        result:
+          type: integer
+        message:
+          type: string
+        data:
+          $ref: '#/components/schemas/ShahkarInquiryResponse_data'
+      type: object
+    CardToAccountRequest:
+      example:
+        cardNumber: cardNumber
+      properties:
+        cardNumber:
+          type: string
+      required:
+      - cardNumber
+      type: object
+    CardToAccountResponse:
+      example:
+        result: 0
+        data:
+          bankAccount: bankAccount
+          name: name
+          bankName: bankName
+        message: message
+      properties:
+        result:
+          type: integer
+        message:
+          type: string
+        data:
+          $ref: '#/components/schemas/CardToAccountResponse_data'
+      type: object
+    BankAccountToIbanRequest:
+      example:
+        bankAccount: bankAccount
+        bankCode: bankCode
+      properties:
+        bankAccount:
+          type: string
+        bankCode:
+          type: string
+      required:
+      - bankAccount
+      - bankCode
+      type: object
+    BankAccountToIbanResponse:
+      example:
+        result: 0
+        data:
+          IBAN: IBAN
+        message: message
+      properties:
+        result:
+          type: integer
+        message:
+          type: string
+        data:
+          $ref: '#/components/schemas/BankAccountToIbanResponse_data'
+      type: object
+    CardToIbanRequest:
+      example:
+        cardNumber: cardNumber
+      properties:
+        cardNumber:
+          type: string
+      required:
+      - cardNumber
+      type: object
+    CardToIbanResponse:
+      example:
+        result: 0
+        data:
+          IBAN: IBAN
+          name: name
+          bankName: bankName
+        message: message
+      properties:
+        result:
+          type: integer
+        message:
+          type: string
+        data:
+          $ref: '#/components/schemas/CardToIbanResponse_data'
+      type: object
+    WalletCheckoutPlusRequest:
+      example:
+        bankAccount: bankAccount
+        checkoutDelay: 1
+        ledgerId: ledgerId
+        amount: 0
+        bank: bank
+        uniqueCode: uniqueCode
+        id: 6
+      properties:
+        amount:
+          type: integer
+        id:
+          type: integer
+        bankAccount:
+          type: string
+        checkoutDelay:
+          type: integer
+        uniqueCode:
+          type: string
+        bank:
+          type: string
+        ledgerId:
+          type: string
+      required:
+      - amount
+      - bankAccount
+      - id
+      type: object
+    WalletCheckoutPlusResponse:
+      example:
+        result: 0
+        data:
+          ledgerId: ledgerId
+          createdAt: createdAt
+          amount: 6
+          transactionOrderId: transactionOrderId
+          description: description
+          id: id
+          type: 1
+          transactionId: transactionId
+        message: message
+      properties:
+        result:
+          type: integer
+        message:
+          type: string
+        data:
+          $ref: '#/components/schemas/WalletCheckoutPlusResponse_data'
+      type: object
+    ErrorResponse:
+      example:
+        result: 6
+        message: API Key به درستی ارسال نشده است.
+      properties:
+        result:
+          enum:
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+          - 7
+          - 8
+          - 9
+          - 21
+          - 29
+          - 44
+          - 45
+          type: integer
+        message:
+          type: string
+      type: object
+    NationalIdentityInquiryResponse_data:
+      additionalProperties: true
+      example:
+        firstName: firstName
+        lastName: lastName
+        fatherName: fatherName
+        alive: true
+        matched: true
+      properties:
+        matched:
+          type: boolean
+        firstName:
+          type: string
+        lastName:
+          type: string
+        fatherName:
+          type: string
+        alive:
+          type: boolean
+      required:
+      - alive
+      - fatherName
+      - firstName
+      - lastName
+      - matched
+      type: object
+    ShahkarInquiryResponse_data:
+      additionalProperties: true
+      example:
+        matched: true
+      properties:
+        matched:
+          type: boolean
+      required:
+      - matched
+      type: object
+    CardToAccountResponse_data:
+      additionalProperties: true
+      example:
+        bankAccount: bankAccount
+        name: name
+        bankName: bankName
+      properties:
+        name:
+          type: string
+        bankAccount:
+          type: string
+        bankName:
+          type: string
+      required:
+      - bankAccount
+      - bankName
+      - name
+      type: object
+    BankAccountToIbanResponse_data:
+      additionalProperties: true
+      example:
+        IBAN: IBAN
+      properties:
+        IBAN:
+          type: string
+      required:
+      - IBAN
+      type: object
+    CardToIbanResponse_data:
+      additionalProperties: true
+      example:
+        IBAN: IBAN
+        name: name
+        bankName: bankName
+      properties:
+        name:
+          type: string
+        IBAN:
+          type: string
+        bankName:
+          type: string
+      required:
+      - IBAN
+      - bankName
+      - name
+      type: object
+    WalletCheckoutPlusResponse_data:
+      additionalProperties: true
+      example:
+        ledgerId: ledgerId
+        createdAt: createdAt
+        amount: 6
+        transactionOrderId: transactionOrderId
+        description: description
+        id: id
+        type: 1
+        transactionId: transactionId
+      properties:
+        id:
+          type: string
+        createdAt:
+          type: string
+        amount:
+          type: integer
+        description:
+          type: string
+        type:
+          type: integer
+        transactionId:
+          type: string
+        transactionOrderId:
+          type: string
+        ledgerId:
+          type: string
+      required:
+      - amount
+      - createdAt
+      - description
+      - id
+      - ledgerId
+      - transactionOrderId
+      - type
+      type: object
+  securitySchemes:
+    bearerAuth:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http
