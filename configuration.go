@@ -142,19 +142,19 @@ func NewConfiguration() *Configuration {
 			},
 			"GatewayAPIService.RequestPost": {
 				{
-					URL: "https://gateway.zibal.ir/",
+					URL: "https://gateway.zibal.ir",
 					Description: "No description provided",
 				},
 			},
 			"GatewayAPIService.StartTrackIdGet": {
 				{
-					URL: "https://gateway.zibal.ir/",
+					URL: "https://gateway.zibal.ir",
 					Description: "No description provided",
 				},
 			},
 			"GatewayAPIService.VerifyPost": {
 				{
-					URL: "https://gateway.zibal.ir/",
+					URL: "https://gateway.zibal.ir",
 					Description: "No description provided",
 				},
 			},

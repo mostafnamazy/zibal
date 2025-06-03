@@ -28,7 +28,7 @@ paths:
                 $ref: '#/components/schemas/PaymentInitResponse'
           description: Payment initiation response
       servers:
-      - url: https://gateway.zibal.ir/
+      - url: https://gateway.zibal.ir
       summary: Initiate Payment
       tags:
       - Gateway
@@ -48,7 +48,7 @@ paths:
                 $ref: '#/components/schemas/PaymentVerifyResponse'
           description: Payment verification response
       servers:
-      - url: https://gateway.zibal.ir/
+      - url: https://gateway.zibal.ir
       summary: Verify Payment
       tags:
       - Gateway
@@ -68,7 +68,7 @@ paths:
         "200":
           description: Redirect to Zibal payment page
       servers:
-      - url: https://gateway.zibal.ir/
+      - url: https://gateway.zibal.ir
       summary: Get payment page
       tags:
       - Gateway

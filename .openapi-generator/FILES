@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 .travis.yml
 README.md
 api/openapi.yaml
@@ -63,6 +62,4 @@ model_wallet_checkout_plus_request.go
 model_wallet_checkout_plus_response.go
 model_wallet_checkout_plus_response_data.go
 response.go
-test/api_facilities_test.go
-test/api_gateway_test.go
 utils.go
