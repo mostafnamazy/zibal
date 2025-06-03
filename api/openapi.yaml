@@ -399,6 +399,7 @@ components:
       - merchant
       type: object
     PaymentInitResponse:
+      additionalProperties: true
       example:
         result: 6
         trackId: 0
@@ -449,20 +450,20 @@ components:
       - trackId
       type: object
     PaymentVerifyResponse:
+      additionalProperties: true
       example:
         result: 6
         amount: 0
         refNumber: refNumber
         orderId: orderId
-        paidAt: 2000-01-23 04:56:07+00:00
+        paidAt: 2025-06-03T17:04:50.190000
         description: description
         message: message
         cardNumber: cardNumber
         status: 1
       properties:
         paidAt:
-          description: ISODate
-          format: date-time
+          description: ISO 8601 Date
           type: string
         amount:
           description: مبلغ سفارش (به ریال)
@@ -566,6 +567,7 @@ components:
       - nationalCode
       type: object
     NationalIdentityInquiryResponse:
+      additionalProperties: true
       example:
         result: 0
         data:
@@ -596,6 +598,7 @@ components:
       - nationalCode
       type: object
     ShahkarInquiryResponse:
+      additionalProperties: true
       example:
         result: 0
         data:
@@ -627,6 +630,7 @@ components:
       - nationalCode
       type: object
     CheckCardWithNationalCodeResponse:
+      additionalProperties: true
       example:
         result: 0
         data:
@@ -650,6 +654,7 @@ components:
       - cardNumber
       type: object
     CardToAccountResponse:
+      additionalProperties: true
       example:
         result: 0
         data:
@@ -679,6 +684,7 @@ components:
       - bankCode
       type: object
     BankAccountToIbanResponse:
+      additionalProperties: true
       example:
         result: 0
         data:
@@ -702,6 +708,7 @@ components:
       - cardNumber
       type: object
     CardToIbanResponse:
+      additionalProperties: true
       example:
         result: 0
         data:
@@ -747,6 +754,7 @@ components:
       - id
       type: object
     WalletCheckoutPlusResponse:
+      additionalProperties: true
       example:
         result: 0
         data:

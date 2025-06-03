@@ -22,7 +22,10 @@ type CardToIbanResponse struct {
 	Result *int32 `json:"result,omitempty"`
 	Message *string `json:"message,omitempty"`
 	Data *CardToIbanResponseData `json:"data,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _CardToIbanResponse CardToIbanResponse
 
 // NewCardToIbanResponse instantiates a new CardToIbanResponse object
 // This constructor will assign default values to properties that have it defined,
@@ -156,7 +159,35 @@ func (o CardToIbanResponse) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Data) {
 		toSerialize["data"] = o.Data
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *CardToIbanResponse) UnmarshalJSON(data []byte) (err error) {
+	varCardToIbanResponse := _CardToIbanResponse{}
+
+	err = json.Unmarshal(data, &varCardToIbanResponse)
+
+	if err != nil {
+		return err
+	}
+
+	*o = CardToIbanResponse(varCardToIbanResponse)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "result")
+		delete(additionalProperties, "message")
+		delete(additionalProperties, "data")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableCardToIbanResponse struct {

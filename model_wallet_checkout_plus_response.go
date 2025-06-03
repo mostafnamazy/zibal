@@ -22,7 +22,10 @@ type WalletCheckoutPlusResponse struct {
 	Result *int32 `json:"result,omitempty"`
 	Message *string `json:"message,omitempty"`
 	Data *WalletCheckoutPlusResponseData `json:"data,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _WalletCheckoutPlusResponse WalletCheckoutPlusResponse
 
 // NewWalletCheckoutPlusResponse instantiates a new WalletCheckoutPlusResponse object
 // This constructor will assign default values to properties that have it defined,
@@ -156,7 +159,35 @@ func (o WalletCheckoutPlusResponse) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Data) {
 		toSerialize["data"] = o.Data
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *WalletCheckoutPlusResponse) UnmarshalJSON(data []byte) (err error) {
+	varWalletCheckoutPlusResponse := _WalletCheckoutPlusResponse{}
+
+	err = json.Unmarshal(data, &varWalletCheckoutPlusResponse)
+
+	if err != nil {
+		return err
+	}
+
+	*o = WalletCheckoutPlusResponse(varWalletCheckoutPlusResponse)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "result")
+		delete(additionalProperties, "message")
+		delete(additionalProperties, "data")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableWalletCheckoutPlusResponse struct {

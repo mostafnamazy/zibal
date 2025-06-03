@@ -22,7 +22,10 @@ type BankAccountToIbanResponse struct {
 	Result *int32 `json:"result,omitempty"`
 	Message *string `json:"message,omitempty"`
 	Data *BankAccountToIbanResponseData `json:"data,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _BankAccountToIbanResponse BankAccountToIbanResponse
 
 // NewBankAccountToIbanResponse instantiates a new BankAccountToIbanResponse object
 // This constructor will assign default values to properties that have it defined,
@@ -156,7 +159,35 @@ func (o BankAccountToIbanResponse) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Data) {
 		toSerialize["data"] = o.Data
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *BankAccountToIbanResponse) UnmarshalJSON(data []byte) (err error) {
+	varBankAccountToIbanResponse := _BankAccountToIbanResponse{}
+
+	err = json.Unmarshal(data, &varBankAccountToIbanResponse)
+
+	if err != nil {
+		return err
+	}
+
+	*o = BankAccountToIbanResponse(varBankAccountToIbanResponse)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "result")
+		delete(additionalProperties, "message")
+		delete(additionalProperties, "data")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableBankAccountToIbanResponse struct {

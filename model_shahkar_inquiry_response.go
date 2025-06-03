@@ -22,7 +22,10 @@ type ShahkarInquiryResponse struct {
 	Result *int32 `json:"result,omitempty"`
 	Message *string `json:"message,omitempty"`
 	Data *ShahkarInquiryResponseData `json:"data,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _ShahkarInquiryResponse ShahkarInquiryResponse
 
 // NewShahkarInquiryResponse instantiates a new ShahkarInquiryResponse object
 // This constructor will assign default values to properties that have it defined,
@@ -156,7 +159,35 @@ func (o ShahkarInquiryResponse) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Data) {
 		toSerialize["data"] = o.Data
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *ShahkarInquiryResponse) UnmarshalJSON(data []byte) (err error) {
+	varShahkarInquiryResponse := _ShahkarInquiryResponse{}
+
+	err = json.Unmarshal(data, &varShahkarInquiryResponse)
+
+	if err != nil {
+		return err
+	}
+
+	*o = ShahkarInquiryResponse(varShahkarInquiryResponse)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "result")
+		delete(additionalProperties, "message")
+		delete(additionalProperties, "data")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableShahkarInquiryResponse struct {

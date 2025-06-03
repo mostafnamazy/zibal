@@ -22,7 +22,10 @@ type CheckCardWithNationalCodeResponse struct {
 	Result *int32 `json:"result,omitempty"`
 	Message *string `json:"message,omitempty"`
 	Data *ShahkarInquiryResponseData `json:"data,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _CheckCardWithNationalCodeResponse CheckCardWithNationalCodeResponse
 
 // NewCheckCardWithNationalCodeResponse instantiates a new CheckCardWithNationalCodeResponse object
 // This constructor will assign default values to properties that have it defined,
@@ -156,7 +159,35 @@ func (o CheckCardWithNationalCodeResponse) ToMap() (map[string]interface{}, erro
 	if !IsNil(o.Data) {
 		toSerialize["data"] = o.Data
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *CheckCardWithNationalCodeResponse) UnmarshalJSON(data []byte) (err error) {
+	varCheckCardWithNationalCodeResponse := _CheckCardWithNationalCodeResponse{}
+
+	err = json.Unmarshal(data, &varCheckCardWithNationalCodeResponse)
+
+	if err != nil {
+		return err
+	}
+
+	*o = CheckCardWithNationalCodeResponse(varCheckCardWithNationalCodeResponse)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "result")
+		delete(additionalProperties, "message")
+		delete(additionalProperties, "data")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableCheckCardWithNationalCodeResponse struct {

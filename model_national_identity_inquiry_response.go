@@ -22,7 +22,10 @@ type NationalIdentityInquiryResponse struct {
 	Result *int32 `json:"result,omitempty"`
 	Message *string `json:"message,omitempty"`
 	Data *NationalIdentityInquiryResponseData `json:"data,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _NationalIdentityInquiryResponse NationalIdentityInquiryResponse
 
 // NewNationalIdentityInquiryResponse instantiates a new NationalIdentityInquiryResponse object
 // This constructor will assign default values to properties that have it defined,
@@ -156,7 +159,35 @@ func (o NationalIdentityInquiryResponse) ToMap() (map[string]interface{}, error)
 	if !IsNil(o.Data) {
 		toSerialize["data"] = o.Data
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *NationalIdentityInquiryResponse) UnmarshalJSON(data []byte) (err error) {
+	varNationalIdentityInquiryResponse := _NationalIdentityInquiryResponse{}
+
+	err = json.Unmarshal(data, &varNationalIdentityInquiryResponse)
+
+	if err != nil {
+		return err
+	}
+
+	*o = NationalIdentityInquiryResponse(varNationalIdentityInquiryResponse)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "result")
+		delete(additionalProperties, "message")
+		delete(additionalProperties, "data")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableNationalIdentityInquiryResponse struct {

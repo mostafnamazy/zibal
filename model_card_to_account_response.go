@@ -22,7 +22,10 @@ type CardToAccountResponse struct {
 	Result *int32 `json:"result,omitempty"`
 	Message *string `json:"message,omitempty"`
 	Data *CardToAccountResponseData `json:"data,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _CardToAccountResponse CardToAccountResponse
 
 // NewCardToAccountResponse instantiates a new CardToAccountResponse object
 // This constructor will assign default values to properties that have it defined,
@@ -156,7 +159,35 @@ func (o CardToAccountResponse) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Data) {
 		toSerialize["data"] = o.Data
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *CardToAccountResponse) UnmarshalJSON(data []byte) (err error) {
+	varCardToAccountResponse := _CardToAccountResponse{}
+
+	err = json.Unmarshal(data, &varCardToAccountResponse)
+
+	if err != nil {
+		return err
+	}
+
+	*o = CardToAccountResponse(varCardToAccountResponse)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "result")
+		delete(additionalProperties, "message")
+		delete(additionalProperties, "data")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableCardToAccountResponse struct {

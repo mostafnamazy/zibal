@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**PaidAt** | Pointer to **time.Time** | ISODate | [optional] 
+**PaidAt** | Pointer to **string** | ISO 8601 Date | [optional] 
 **Amount** | **int32** | مبلغ سفارش (به ریال) | 
 **Result** | **int32** | result | 
 **Status** | **int32** | verify status | 
@@ -35,20 +35,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetPaidAt
 
-`func (o *PaymentVerifyResponse) GetPaidAt() time.Time`
+`func (o *PaymentVerifyResponse) GetPaidAt() string`
 
 GetPaidAt returns the PaidAt field if non-nil, zero value otherwise.
 
 ### GetPaidAtOk
 
-`func (o *PaymentVerifyResponse) GetPaidAtOk() (*time.Time, bool)`
+`func (o *PaymentVerifyResponse) GetPaidAtOk() (*string, bool)`
 
 GetPaidAtOk returns a tuple with the PaidAt field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPaidAt
 
-`func (o *PaymentVerifyResponse) SetPaidAt(v time.Time)`
+`func (o *PaymentVerifyResponse) SetPaidAt(v string)`
 
 SetPaidAt sets PaidAt field to given value.
 

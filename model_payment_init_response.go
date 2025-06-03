@@ -12,7 +12,6 @@ package zibal
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type PaymentInitResponse struct {
 	// result
 	Result int32 `json:"result"`
 	Message string `json:"message"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _PaymentInitResponse PaymentInitResponse
@@ -134,6 +134,11 @@ func (o PaymentInitResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize["trackId"] = o.TrackId
 	toSerialize["result"] = o.Result
 	toSerialize["message"] = o.Message
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -163,15 +168,22 @@ func (o *PaymentInitResponse) UnmarshalJSON(data []byte) (err error) {
 
 	varPaymentInitResponse := _PaymentInitResponse{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varPaymentInitResponse)
+	err = json.Unmarshal(data, &varPaymentInitResponse)
 
 	if err != nil {
 		return err
 	}
 
 	*o = PaymentInitResponse(varPaymentInitResponse)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "trackId")
+		delete(additionalProperties, "result")
+		delete(additionalProperties, "message")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

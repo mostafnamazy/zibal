@@ -12,8 +12,6 @@ package zibal
 
 import (
 	"encoding/json"
-	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -22,8 +20,8 @@ var _ MappedNullable = &PaymentVerifyResponse{}
 
 // PaymentVerifyResponse struct for PaymentVerifyResponse
 type PaymentVerifyResponse struct {
-	// ISODate
-	PaidAt *time.Time `json:"paidAt,omitempty"`
+	// ISO 8601 Date
+	PaidAt *string `json:"paidAt,omitempty"`
 	// مبلغ سفارش (به ریال)
 	Amount int32 `json:"amount"`
 	// result
@@ -40,6 +38,7 @@ type PaymentVerifyResponse struct {
 	OrderId *string `json:"orderId,omitempty"`
 	// message
 	Message string `json:"message"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _PaymentVerifyResponse PaymentVerifyResponse
@@ -67,9 +66,9 @@ func NewPaymentVerifyResponseWithDefaults() *PaymentVerifyResponse {
 }
 
 // GetPaidAt returns the PaidAt field value if set, zero value otherwise.
-func (o *PaymentVerifyResponse) GetPaidAt() time.Time {
+func (o *PaymentVerifyResponse) GetPaidAt() string {
 	if o == nil || IsNil(o.PaidAt) {
-		var ret time.Time
+		var ret string
 		return ret
 	}
 	return *o.PaidAt
@@ -77,7 +76,7 @@ func (o *PaymentVerifyResponse) GetPaidAt() time.Time {
 
 // GetPaidAtOk returns a tuple with the PaidAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PaymentVerifyResponse) GetPaidAtOk() (*time.Time, bool) {
+func (o *PaymentVerifyResponse) GetPaidAtOk() (*string, bool) {
 	if o == nil || IsNil(o.PaidAt) {
 		return nil, false
 	}
@@ -93,8 +92,8 @@ func (o *PaymentVerifyResponse) HasPaidAt() bool {
 	return false
 }
 
-// SetPaidAt gets a reference to the given time.Time and assigns it to the PaidAt field.
-func (o *PaymentVerifyResponse) SetPaidAt(v time.Time) {
+// SetPaidAt gets a reference to the given string and assigns it to the PaidAt field.
+func (o *PaymentVerifyResponse) SetPaidAt(v string) {
 	o.PaidAt = &v
 }
 
@@ -341,6 +340,11 @@ func (o PaymentVerifyResponse) ToMap() (map[string]interface{}, error) {
 		toSerialize["orderId"] = o.OrderId
 	}
 	toSerialize["message"] = o.Message
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -372,15 +376,28 @@ func (o *PaymentVerifyResponse) UnmarshalJSON(data []byte) (err error) {
 
 	varPaymentVerifyResponse := _PaymentVerifyResponse{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varPaymentVerifyResponse)
+	err = json.Unmarshal(data, &varPaymentVerifyResponse)
 
 	if err != nil {
 		return err
 	}
 
 	*o = PaymentVerifyResponse(varPaymentVerifyResponse)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "paidAt")
+		delete(additionalProperties, "amount")
+		delete(additionalProperties, "result")
+		delete(additionalProperties, "status")
+		delete(additionalProperties, "refNumber")
+		delete(additionalProperties, "description")
+		delete(additionalProperties, "cardNumber")
+		delete(additionalProperties, "orderId")
+		delete(additionalProperties, "message")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }
